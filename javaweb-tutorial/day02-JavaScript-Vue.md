@@ -1092,7 +1092,8 @@ JavaScript对于事件的绑定提供了2种方式：
 
   浏览器打开，然后点击按钮，弹框如下：
 
-  ![1668804375833](assets/1668804375833.png) 
+<img width="562" alt="image" src="https://github.com/laurarian/java-tutorial/assets/78458931/856c0152-7846-419e-a867-1100763175ee">
+
 
   
 
@@ -1114,7 +1115,8 @@ JavaScript对于事件的绑定提供了2种方式：
 
   浏览器刷新页面，点击第二个按钮，弹框如下：
 
-  ![1668804696373](assets/1668804696373.png) 
+<img width="559" alt="image" src="https://github.com/laurarian/java-tutorial/assets/78458931/8670325f-0c1b-4034-9640-56af683dbdae">
+
 
   
 
@@ -1152,4 +1154,395 @@ JavaScript对于事件的绑定提供了2种方式：
   </html>
   ~~~
 
+### 1.5.2 常见事件
+上面案例中使用到了 `onclick` 事件属性，那都有哪些事件属性供我们使用呢？下面就给大家列举一些比较常用的事件属性
+
+| 事件属性名  | 说明                     |
+| ----------- | ------------------------ |
+| onclick     | 鼠标单击事件             |
+| onblur      | 元素失去焦点             |
+| onfocus     | 元素获得焦点             |
+| onload      | 某个页面或图像被完成加载 |
+| onsubmit    | 当表单提交时触发该事件   |
+| onmouseover | 鼠标被移到某元素之上     |
+| onmouseout  | 鼠标从某元素移开         |
+| onekeydown  | 某个键盘的键被落下       |
+
+在代码中提供了10. JS-事件-常见事件.html的文件，我们可以通过浏览器打开来观察几个常用事件的具体效果：
+
+- onfocus:获取焦点事件，鼠标点击输入框，输入框中光标一闪一闪的，就是输入框获取焦点了
+
+  <img width="822" alt="image" src="https://github.com/laurarian/java-tutorial/assets/78458931/f3b04761-1514-46a3-8ef4-456f7a68bfe1">
+
+
+- onblur:失去焦点事件，前提是输入框获取焦点的状态下，在输入框之外的地方点击，光标从输入框中消失了，这就是失去焦点。
+
+  <img width="833" alt="image" src="https://github.com/laurarian/java-tutorial/assets/78458931/c7d558e4-ab1b-417a-b57d-8dafb812b095">
+
+
+其他事件的效果，同学们可以通过提供好的代码去演示，亲身体会事件在什么时候触发。
+
+完整代码如下：
+
+~~~html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS-事件-常见事件</title>
+</head>
+
+<body onload="load()">
+
+    <form action="" style="text-align: center;" onsubmit="subfn()">
+        <input type="text" name="username" onblur="bfn()" onfocus="ffn()" onkeydown="kfn()">
+        
+        <input id="b1" type="submit" value="提交">
+
+        <input id="b1" type="button" value="单击事件" onclick="fn1()">
+    </form>  
+
+    <br><br><br>
+
+    <table width="800px" border="1" cellspacing="0" align="center" onmouseover="over()" onmouseout="out()">
+        <tr>
+            <th>学号</th>
+            <th>姓名</th>
+            <th>分数</th>
+            <th>评语</th>
+        </tr>
+        <tr align="center">
+            <td>001</td>
+            <td>张三</td>
+            <td>90</td>
+            <td>很优秀</td>
+        </tr>
+        <tr align="center">
+            <td>002</td>
+            <td>李四</td>
+            <td>92</td>
+            <td>优秀</td>
+        </tr>
+    </table>
+
+</body>
+
+<script>
+    //onload : 页面/元素加载完成后触发
+    function load(){
+        console.log("页面加载完成...")
+    }
+
+    //onclick: 鼠标点击事件
+    function fn1(){
+        console.log("我被点击了...");
+    }
+
+    //onblur: 失去焦点事件
+    function bfn(){
+        console.log("失去焦点...");
+    }
+
+    //onfocus: 元素获得焦点
+    function ffn(){
+        console.log("获得焦点...");
+    }
+
+    //onkeydown: 某个键盘的键被按下
+    function kfn(){
+        console.log("键盘被按下了...");
+    }
+
+    //onmouseover: 鼠标移动到元素之上
+    function over(){
+        console.log("鼠标移入了...")
+    }
+
+    //onmouseout: 鼠标移出某元素
+    function out(){
+        console.log("鼠标移出了...")
+    }
+
+    /*
+    如果您只使用 console.log() 而不是 alert()，通常情况下，如果没有阻止表单的默认提交行为，页面将会刷新，
+    这导致所有之前的控制台输出都会被清除，即使 console.log() 已经执行了。
+    由于页面刷新速度通常很快，可能导致控制台的输出在您能看到之前就已经被清空了。
+    使用 alert() 时，它实际上会阻止页面继续执行直到您关闭弹窗，因此页面不会立即刷新，您可以看到之前的 console.log() 输出
+    */
+    //onsubmit: 提交表单事件
+    
+    function subfn(){
+        alert("表单被提交了...");
+    }
+
+</script>
+</html>
+~~~
+
+### 1.5.3 案例
+
+<img width="709" alt="image" src="https://github.com/laurarian/java-tutorial/assets/78458931/c7f02bdf-579c-4eb1-bbfb-e0818cc6ab57">
+
+在VS  Code中创建名为16. JS-事件-案例.html的文件
+
+需求分析：
+
+**需求1**
+
+- 需求：
+
+  点击 “点亮”按钮 点亮灯泡，点击“熄灭”按钮 熄灭灯泡
+
+- 分析：
+
+  点击按钮的时候触发，所以我们需要绑定单击事件。不管是点亮还是熄灭，都是图片的变化，所以我们需要修改图片。但是修改图片我们还需要先获取标签图片标签对象。
+
+- 步骤：
+
+  - 首先给点亮按钮和熄灭按钮都绑定单击事件。分别绑定函数on()和off（）
+  - 然后在js中定义on()和off()函数
+  - on()函数中，通过id获取img标签对象，然后通过img标签对象的src属性切换点亮的图片
+  - off()函数中，通过id获取img标签对象，然后通过img标签对象的src属性切换熄灭的图片
+
+- 代码实现：
+
+  事件绑定
+
+  ~~~html
+  <input type="button" value="点亮" onclick="on()"> 
+  <input type="button"  value="熄灭" onclick="off()">
+  ~~~
+
+  on()和off()函数
+
+  ~~~js
+  //1. 点击 "点亮" 按钮, 点亮灯泡; 点击 "熄灭" 按钮, 熄灭灯泡; -- onclick
+  function on(){
+      //a. 获取img元素对象
+      var img = document.getElementById("light");
+      //b. 设置src属性
+      img.src = "img/on.gif";
+  }
   
+  function off(){
+      //a. 获取img元素对象
+      var img = document.getElementById("light");
+      //b. 设置src属性
+      img.src = "img/off.gif";
+  }
+  ~~~
+
+  
+**需求2**
+
+- 需求：
+
+  输入框鼠标聚焦后，展示小写；鼠标离焦后，展示大写。
+
+- 分析：
+
+  聚焦和失焦的时候完成功能，所以我们需要给input标签绑定onfocus和onblur事件；我们要切换大小写，那么我们可定要获取原本输入框的内容，通过查询资料，需要使用input标签对象的value属性，然后进行大小写切换；切换完成我们需要重新填入，所以还是通过value属性来设置input标签输入框的内容
+
+- 步骤:
+
+  - 给input标签的onfocus和onblur事件分别绑定lower()和upper()函数
+  - 然后在js中定义lower()和upper()函数
+  - 对于lower()函数，先通过id获取输入框对象，然后通过输入框的value属性来设置内容，内容的话可以通过字符串的toLowerCase()函数来进行小写转换
+  - 对于upper()函数，先通过id获取输入框对象，然后通过输入框的value属性来设置内容，内容的话可以通过字符串的toupperCase()函数来进行大写转换
+
+- 代码实现：、
+
+  事件绑定：
+
+  ~~~html
+  <input type="text" id="name" value="ITCAST" onfocus="lower()" onblur="upper()">
+  ~~~
+
+  lower()和upper()函数
+
+  ~~~js
+  //2. 输入框聚焦后, 展示小写; 输入框离焦后, 展示大写; -- onfocus , onblur
+  function lower(){//小写
+      //a. 获取输入框元素对象
+      var input = document.getElementById("name");
+  
+      //b. 将值转为小写
+      input.value = input.value.toLowerCase();
+  }
+  
+  function upper(){//大写
+      //a. 获取输入框元素对象
+      var input = document.getElementById("name");
+  
+      //b. 将值转为大写
+      input.value = input.value.toUpperCase();
+  }
+  ~~~
+
+  
+
+**需求3**
+
+- 需求：
+
+  点击 “全选”按钮使所有的复选框呈现被选中的状态，点击 “反选”按钮使所有的复选框呈现取消勾选的状态。
+
+- 分析：
+
+  点击按钮完成功能，所以我们需要给2个按钮绑定单击事件；我们需要设置所有复选框的状态，通过我们之前的案例，我们知道，我们需要获取所有的复选框，然后遍历，可以通过设置checked属性为true，来设置复选框为选中；那么反之，设置checked属性为false，来设置复选框为未选中。
+
+- 步骤：
+
+  - 给全选和反选按钮绑定单击事件，分别绑定函数checkAll()和reverse()
+  - 在js中定义checkAll()和reverse()函数
+  - 对于checkAll()函数，首先通过name属性值为hobby来获取所有的复选框，然后遍历复选框，设置每个复选框的checked属性为true即可
+  - 对于reverse()函数，首先通过name属性值为hobby来获取所有的复选框，然后遍历复选框，设置每个复选框的checked属性为false即可
+
+- 代码实现：
+
+  事件绑定：
+
+  ~~~html
+  <input type="button" value="全选" onclick="checkAll()"> 
+  <input type="button" value="反选" onclick="reverse()">
+  ~~~
+
+  checkAll()和reverse()函数
+
+  ~~~js
+   //3. 点击 "全选" 按钮使所有的复选框呈现选中状态 ; 点击 "反选" 按钮使所有的复选框呈现取消勾选的状态 ; 
+  function checkAll(){
+      //a. 获取所有复选框元素对象
+      var hobbys = document.getElementsByName("hobby");
+  
+      //b. 设置选中状态
+      for (let i = 0; i < hobbys.length; i++) {
+          const element = hobbys[i];
+          element.checked = true;
+      }
+  
+  }
+      
+  function reverse(){
+      //a. 获取所有复选框元素对象
+      var hobbys = document.getElementsByName("hobby");
+  
+      //b. 设置未选中状态
+      for (let i = 0; i < hobbys.length; i++) {
+          const element = hobbys[i];
+          element.checked = false;
+      }
+  }
+  ~~~
+
+  
+
+**完整代码**
+
+~~~html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS-事件-案例</title>
+</head>
+<body>
+
+    <img id="light" src="img/off.gif"> <br>
+
+    <input type="button" value="点亮" onclick="on()"> 
+    <input type="button"  value="熄灭" onclick="off()">
+
+    <br> <br>
+
+    <input type="text" id="name" value="ITCAST" onfocus="lower()" onblur="upper()">
+    <br> <br>
+
+    <input type="checkbox" name="hobby"> 电影
+    <input type="checkbox" name="hobby"> 旅游
+    <input type="checkbox" name="hobby"> 游戏
+    <br>
+
+    <input type="button" value="全选" onclick="checkAll()"> 
+    <input type="button" value="反选" onclick="reverse()">
+
+</body>
+
+<script>
+
+    //1. 点击 "点亮" 按钮, 点亮灯泡; 点击 "熄灭" 按钮, 熄灭灯泡; -- onclick
+    function on(){
+        //a. 获取img元素对象
+        var img = document.getElementById("light");
+
+        //b. 设置src属性
+        img.src = "img/on.gif";
+    }
+
+    function off(){
+        //a. 获取img元素对象
+        var img = document.getElementById("light");
+
+        //b. 设置src属性
+        img.src = "img/off.gif";
+    }
+
+
+
+    //2. 输入框聚焦后, 展示小写; 输入框离焦后, 展示大写; -- onfocus , onblur
+    function lower(){//小写
+        //a. 获取输入框元素对象
+        var input = document.getElementById("name");
+
+        //b. 将值转为小写
+        // 字符串方法 .toLowerCase() 不会改变原始字符串，而是返回一个新的转换后的字符串
+        // 将这个新字符串赋值回input.value,input是输入框对象，调用input.value方法重新设置输入框的当前值
+        // input.value 本身是用来获取或设置输入框（即 input 输入框对象）的当前值的
+        input.value = input.value.toLowerCase();
+    }
+
+    function upper(){//大写
+        //a. 获取输入框元素对象
+        var input = document.getElementById("name");
+
+        //b. 将值转为大写
+        input.value = input.value.toUpperCase();
+    }
+
+
+
+    //3. 点击 "全选" 按钮使所有的复选框呈现选中状态 ; 点击 "反选" 按钮使所有的复选框呈现取消勾选的状态 ; -- onclick
+    function checkAll(){
+        //a. 获取所有复选框元素对象
+        var hobbys = document.getElementsByName("hobby");
+
+        //b. 设置选中状态
+        for (let i = 0; i < hobbys.length; i++) {
+            const element = hobbys[i];
+            element.checked = true;
+        }
+
+    }
+    
+    function reverse(){
+        //a. 获取所有复选框元素对象
+        var hobbys = document.getElementsByName("hobby");
+
+        //b. 设置未选中状态
+        for (let i = 0; i < hobbys.length; i++) {
+            const element = hobbys[i];
+            element.checked = false;
+        }
+    }
+
+
+
+</script>
+</html>
+~~~
+
+
