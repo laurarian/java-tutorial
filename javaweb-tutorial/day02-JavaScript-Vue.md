@@ -770,4 +770,386 @@ Array数组的完整代码如下：
 
 
 ### 1.4.2 BOM对象(Browser Object Model 浏览器对象模型)
-### 1.4.4 BOM对象(Document Object Model 文档对象模型)
+### 1.4.3 DOM对象(Document Object Model 文档对象模型)
+
+**介绍**
+DOM：Document Object Model 文档对象模型。也就是 JavaScript 将 HTML 文档的各个组成部分封装为对象。
+
+DOM 其实我们并不陌生，之前在学习 XML 就接触过，只不过 XML 文档中的标签需要我们写代码解析，而 HTML 文档是浏览器解析。封装的对象分为
+
+- Document：整个文档对象
+- Element：元素对象
+- Attribute：属性对象
+- Text：文本对象
+- Comment：注释对象
+
+如下图，左边是 HTML 文档内容，右边是 DOM 树
+
+<img width="892" alt="image" src="https://github.com/laurarian/java-tutorial/assets/78458931/b74b3458-4868-44c0-9721-424a716d3079">
+
+
+JavaScript通过DOM,就能对HTML进行操作：：
+
+- 改变 HTML 元素的内容
+- 改变 HTML 元素的样式（CSS）
+- 对 HTML DOM 事件作出反应
+- 添加和删除 HTML 元素
+
+总而达到动态改变页面效果目的，具体我们可以查看代码中提供的06. JS-对象-DOM-演示.html来体会DOM的效果。
+
+<img width="784" alt="image" src="https://github.com/laurarian/java-tutorial/assets/78458931/cdab304c-fcb4-46cb-8ea8-39ed41d05862">
+
+**获取DOM对象**
+我们知道DOM的作用是通过修改HTML元素的内容和样式等来实现页面的各种动态效果，但是我们要操作DOM对象的前提是先获取元素对象，然后才能操作。所以学习DOM,主要的核心就是学习如下2点：
+
+- 如何获取DOM中的元素对象（Element对象 ，也就是标签）
+- 如何操作Element对象的属性,也就是标签的属性。
+
+接下来我们先来学习如何获取DOM中的元素对象。
+
+HTML中的Element对象可以通过Document对象获取，而Document对象是通过window对象获取的。document对象提供的用于获取Element元素对象的api如下表所示：
+
+| 函数                              | 描述                                     |
+| --------------------------------- | ---------------------------------------- |
+| document.getElementById()         | 根据id属性值获取，返回单个Element对象    |
+| document.getElementsByTagName()   | 根据标签名称获取，返回Element对象数组    |
+| document.getElementsByName()      | 根据name属性值获取，返回Element对象数组  |
+| document.getElementsByClassName() | 根据class属性值获取，返回Element对象数组 |
+
+接下来我们通过VS Code中创建名为12. JS-对象-DOM-获取元素.html的文件来演示上述api
+
+接下来我们通过VS Code中创建名为07. JS-对象-DOM-获取元素.html的文件来演示上述api，首先在准备如下页面代码：
+
+~~~html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS-对象-DOM</title>
+</head>
+
+<body>
+    <img id="h1" src="img/off.gif">  <br><br>
+
+    <div class="cls">传智教育</div>   <br>
+    <div class="cls">黑马程序员</div>  <br>
+
+    <input type="checkbox" name="hobby"> 电影
+    <input type="checkbox" name="hobby"> 旅游
+    <input type="checkbox" name="hobby"> 游戏
+</body>
+
+</html>
+~~~
+
+- document.getElementById()： 根据标签的id属性获取标签对象，id是唯一的，所以获取到是单个标签对象。
+
+  添加如下代码：
+
+  ~~~html
+  <script>
+  //1. 获取Element元素
+  
+  //1.1 获取元素-根据ID获取
+   var img = document.getElementById('h1');
+   alert(img);
+  </script>
+  ~~~
+
+  浏览器打开，效果如图所示：从弹出的结果能够看出，这是一个图片标签对象
+
+  <img width="549" alt="image" src="https://github.com/laurarian/java-tutorial/assets/78458931/862de5dc-9a63-4e8e-b26e-d262f7b2cbd3">
+
+
+- document.getElementsByTagName() :  根据标签的名字获取标签对象，同名的标签有很多，所以返回值是数组。
+
+  添加如下代码:
+
+  ~~~js
+  //1.2 获取元素-根据标签获取 - div
+  var divs = document.getElementsByTagName('div');
+  for (let i = 0; i < divs.length; i++) {
+       alert(divs[i]);
+  }
+  ~~~
+
+  浏览器输出2次如下所示的弹框
+
+ <img width="552" alt="image" src="https://github.com/laurarian/java-tutorial/assets/78458931/c786145c-ef76-4928-a5af-93e3d5d64972">
+
+
+- document.getElementsByName() ：根据标签的name的属性值获取标签对象，name属性值可以重复，所以返回值是一个数组。
+
+  添加如下代码：
+
+  ~~~js
+  //1.3 获取元素-根据name属性获取
+  var ins = document.getElementsByName('hobby');
+  for (let i = 0; i < ins.length; i++) {
+      alert(ins[i]);
+  }
+  ~~~
+
+  浏览器会有3次如下图所示的弹框：
+
+  <img width="555" alt="image" src="https://github.com/laurarian/java-tutorial/assets/78458931/92fb954c-ce10-4c60-8d21-7ffc5f73ff37">
+
+
+- document.getElementsByClassName() : 根据标签的class属性值获取标签对象，class属性值也可以重复，返回值是数组。
+
+  添加如下图所示的代码：
+
+  ~~~js
+  //1.4 获取元素-根据class属性获取
+  var divs = document.getElementsByClassName('cls');
+  for (let i = 0; i < divs.length; i++) {
+       alert(divs[i]);
+  }
+  ~~~
+
+  浏览器会弹框2次，都是div标签对象
+
+ <img width="551" alt="image" src="https://github.com/laurarian/java-tutorial/assets/78458931/cdaac4e7-fec0-46ba-9fc1-e91bd2b1449d">
+
+
+- 操作属性
+
+  那么获取到标签了，我们如何操作标签的属性呢？通过查询文档资料，如下图所示：
+
+ <img width="833" alt="image" src="https://github.com/laurarian/java-tutorial/assets/78458931/8b43b02e-cdf5-4ea6-90f6-ba2be07b3d26">
+
+
+  得出我们可以通过div标签对象的innerHTML属性来修改标签的内容。此时我们想把页面中的**传智教育替换成传智教育666**，所以要获取2个div中的第一个，所以可以通过下标0获取数组中的第一个div，注释之前的代码，编写如下代码：
+
+  ~~~js
+  var divs = document.getElementsByClassName('cls');
+  var div1 = divs[0];
+  
+  div1.innerHTML = "传智教育666";
+  ~~~
+
+  浏览器刷新页面，展示效果如下图所示：
+
+  <img width="190" alt="image" src="https://github.com/laurarian/java-tutorial/assets/78458931/b6b66c58-b045-4c12-bb46-d286aa1ad212">
+
+
+  发现页面内容变成了传智教育666
+
+
+
+完整代码如下：
+
+~~~html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS-对象-DOM</title>
+</head>
+
+<body>
+    <img id="h1" src="img/off.gif">  <br><br>
+
+    <div class="cls">传智教育</div>   <br>
+    <div class="cls">黑马程序员</div>  <br>
+
+    <input type="checkbox" name="hobby"> 电影
+    <input type="checkbox" name="hobby"> 旅游
+    <input type="checkbox" name="hobby"> 游戏
+</body>
+
+<script>
+    //1. 获取Element元素
+
+    //1.1 获取元素-根据ID获取
+    // var img = document.getElementById('h1');
+    // alert(img);
+
+    //1.2 获取元素-根据标签获取 - div
+    // var divs = document.getElementsByTagName('div');
+    // for (let i = 0; i < divs.length; i++) {
+    //     alert(divs[i]);
+    // }
+
+
+    //1.3 获取元素-根据name属性获取
+    // var ins = document.getElementsByName('hobby');
+    // for (let i = 0; i < ins.length; i++) {
+    //     alert(ins[i]);
+    // }
+
+
+    //1.4 获取元素-根据class属性获取
+    // var divs = document.getElementsByClassName('cls');
+    // for (let i = 0; i < divs.length; i++) {
+    //     alert(divs[i]);
+    // }
+
+
+
+    //2. 查询参考手册, 属性、方法
+    var divs = document.getElementsByClassName('cls');
+    var div1 = divs[0];
+    
+    div1.innerHTML = "传智教育666";
+
+</script>
+</html>
+~~~
+
+### 1.4.4 案例 ###
+
+<img width="619" alt="image" src="https://github.com/laurarian/java-tutorial/assets/78458931/f43307d4-dfbd-4099-b270-e56873be4483">
+
+~~~html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS-对象-DOM-案例</title>
+</head>
+
+<body>
+    <img id="h1" src="img/off.gif">  <br><br>
+
+    <div class="cls">传智教育</div>   <br>
+    <div class="cls">黑马程序员</div>  <br>
+
+    <input type="checkbox" name="hobby"> 电影
+    <input type="checkbox" name="hobby"> 旅游
+    <input type="checkbox" name="hobby"> 游戏
+</body>
+
+<script>
+    //1. 点亮灯泡 : src 属性值
+    var img = document.getElementById('h1'); //获取元素对象
+    img.src = "img/on.gif"; //调用元素对象的src属性改变他
+
+
+    //2. 将所有div标签的内容后面加上: very good (红色字体) -- <font color='red'></font>
+    var divs = document.getElementsByTagName('div');
+    for (let i = 0; i < divs.length; i++) {
+        const div = divs[i];
+        div.innerHTML += "<font color='red'>very good</font>"; 
+    }
+
+
+    //3. 使所有的复选框呈现选中状态
+    var ins = document.getElementsByName('hobby');
+    for (let i = 0; i < ins.length; i++) {
+        const check = ins[i];
+        check.checked = true;//选中
+    }
+
+</script>
+</html>
+~~~
+
+## 1.5 JavaScript事件
+什么是事件呢？HTML事件是发生在HTML元素上的 “事情”，例如：
+
+- 按钮被点击
+- 鼠标移到元素上
+- 输入框失去焦点
+- ........
+
+而我们可以给这些事件绑定函数，当事件触发时，可以自动的完成对应的功能。这就是事件监听。例如：对于我们所说的百度注册页面，我们给用户名输入框的失去焦点事件绑定函数，当我们用户输入完内容，在标签外点击了鼠标，对于用户名输入框来说，失去焦点，然后执行绑定的函数，函数进行用户名内容的校验等操作。JavaScript事件是js非常重要的一部分，接下来我们进行事件的学习。那么我们对于JavaScript事件需要学习哪些内容呢？我们得知道有哪些常用事件，然后我们得学会如何给事件绑定函数。所以主要围绕2点来学习：
+
+- 事件绑定
+- 常用事件
+
+<img width="424" alt="image" src="https://github.com/laurarian/java-tutorial/assets/78458931/f4afc886-1c8d-44a3-b852-ed05982db7f4">
+
+### 1.5.1 事件绑定
+
+JavaScript对于事件的绑定提供了2种方式：
+
+- 方式1：通过html标签中的事件属性进行绑定
+
+  例如一个按钮，我们对于按钮可以绑定单机事件，可以借助标签的onclick属性，属性值指向一个函数。
+
+  在VS Code中创建名为14. JS-事件-事件绑定.html，添加如下代码：
+
+  ~~~html
+  <input type="button" id="btn1" value="事件绑定1" onclick="on()">
+  ~~~
+
+  很明显没有on函数，所以我们需要创建该函数，代码如下：
+
+  ~~~html
+  <script>
+      function on(){
+          alert("按钮1被点击了...");
+      }
+  </script>
+  ~~~
+
+  浏览器打开，然后点击按钮，弹框如下：
+
+  ![1668804375833](assets/1668804375833.png) 
+
+  
+
+- 方式2：通过DOM中Element元素的事件属性进行绑定
+
+  依据我们学习过得DOM的知识点，我们知道html中的标签被加载成element对象，所以我们也可以通过element对象的属性来操作标签的属性。此时我们再次添加一个按钮，代码如下：
+
+  ~~~html
+  <input type="button" id="btn2" value="事件绑定2">
+  ~~~
+
+  我们可以先通过id属性获取按钮对象，然后操作对象的onclick属性来绑定事件，代码如下：
+
+  ~~~js
+  document.getElementById('btn2').onclick = function(){
+      alert("按钮2被点击了...");
+  }
+  ~~~
+
+  浏览器刷新页面，点击第二个按钮，弹框如下：
+
+  ![1668804696373](assets/1668804696373.png) 
+
+  
+
+  **需要注意的是：事件绑定的函数，只有在事件被触发时，函数才会被调用。**
+
+  
+
+  整体代码如下：
+
+  ~~~html
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>JS-事件-事件绑定</title>
+  </head>
+  
+  <body>
+      <input type="button" id="btn1" value="事件绑定1" onclick="on()">
+      <input type="button" id="btn2" value="事件绑定2">
+  </body>
+  
+  <script>
+      function on(){
+          alert("按钮1被点击了...");
+      }
+  
+      document.getElementById('btn2').onclick = function(){
+          alert("按钮2被点击了...");
+      }
+  
+  </script>
+  </html>
+  ~~~
+
+  
