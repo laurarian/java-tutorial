@@ -1566,7 +1566,6 @@ MVVM:其实是Model-View-ViewModel的缩写，有3个单词，具体释义如下
 在更加复杂的dom操作中，vue只会变得更加的简单！在上述的代码中，我们看不到之前的DOM操作，因为vue全部帮我们封装好了。
 
 
-
 接下来我们来介绍一下vue。
 
 Vue.js（读音 /vjuː/, 类似于 **view**） 是一套构建用户界面的 **渐进式框架**。与其他重量级框架不同的是，Vue 采用自底向上增量开发的设计。Vue 的核心库只关注视图层，并且非常容易学习，非常容易与其它库或已有项目整合。Vue.js 的目标是通过尽可能简单的 API 实现**响应的数据绑定**和**组合的视图组件**。
@@ -1575,7 +1574,303 @@ Vue.js（读音 /vjuː/, 类似于 **view**） 是一套构建用户界面的 **
 
 ## 2.2 快速入门
 
+<img width="774" alt="image" src="https://github.com/laurarian/java-tutorial/assets/78458931/88d50992-dea8-45af-aa99-a4eae297ed7d">
+
+接下来我们通过一个vue的快速入门案例，来体验一下vue。
+
+第一步：在VS Code中创建名为12. Vue-快速入门.html的文件，并且在html文件同级创建js目录，将**资料/vue.js文件**目录下得vue.js拷贝到js目录，如下图所示：
+
+![1668858952627](assets/1668858952627.png) 
+
+<img width="751" alt="image" src="https://github.com/laurarian/java-tutorial/assets/78458931/a72f31b4-5387-4a3f-8e49-8919c74db938">
+
+
+第二步：然后编写&lt;script&gt;标签来引入vue.js文件，代码如下：
+
+~~~html
+<script src="js/vue.js"></script>
+~~~
+
+第三步：在js代码区域定义vue对象,代码如下：
+
+~~~html
+<script>
+    //定义Vue对象
+    new Vue({
+        el: "#app", //vue接管区域
+        data:{
+            message: "Hello Vue"
+        }
+    })
+</script>
+~~~
+
+在创建vue对象时，有几个常用的属性：
+
+- el:  用来指定哪儿些标签受 Vue 管理。 该属性取值 `#app` 中的 `app` 需要是受管理的标签的id属性值
+- data: 用来定义数据模型
+- methods: 用来定义函数。这个我们在后面就会用到
+
+第四步：在html区域编写视图，其中{{}}是插值表达式，用来将vue对象中定义的model展示到页面上的
+
+~~~html
+<body>
+    <div id="app">
+        <input type="text" v-model="message">
+        {{message}}
+    </div>
+</body>
+~~~
+
+浏览器打开效果如图所示：
+
+![1668859214102](assets/1668859214102.png) 
+
+
+
+整体代码如下：
+
+~~~html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue-快速入门</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+
+    <div id="app">
+        <input type="text" v-model="message">
+        {{message}}
+    </div>
+
+</body>
+<script>
+    //定义Vue对象
+    new Vue({
+        el: "#app", //vue接管区域
+        data:{
+            message: "Hello Vue"
+        }
+    })
+</script>
+</html>
+~~~
+
 ## 2.3 Vue指令
+在上述的快速入门中，我们发现了html中输入了一个没有学过的属性`v-model`，这个就是vue的**指令**。
+
+**指令：**HTML 标签上带有 v- 前缀的特殊属性，不同指令具有不同含义。例如：v-if，v-for…
+
+在vue中，通过大量的指令来实现数据绑定到视图的，所以接下来我们需要学习vue的常用指令，如下表所示：
+
+| **指令**  | **作用**                                            |
+| --------- | --------------------------------------------------- |
+| v-bind    | 为HTML标签绑定属性值，如设置  href , css样式等      |
+| v-model   | 在表单元素上创建双向数据绑定                        |
+| v-on      | 为HTML标签绑定事件                                  |
+| v-if      | 条件性的渲染某元素，判定为true时渲染,否则不渲染     |
+| v-else    |                                                     |
+| v-else-if |                                                     |
+| v-show    | 根据条件展示某元素，区别在于切换的是display属性的值 |
+| v-for     | 列表渲染，遍历容器的元素或者对象的属性              |
+
+
 ### 2.3.1 v-bind和v-model
+我们首先来学习v-bind指令和v-model指令。
+
+| **指令** | **作用**                                       |
+| -------- | ---------------------------------------------- |
+| v-bind   | 为HTML标签绑定属性值，如设置  href , css样式等 |
+| v-model  | 在表单元素上创建双向数据绑定                   |
+
+- v-bind:  为HTML标签绑定属性值，如设置  href , css样式等。当vue对象中的数据模型发生变化时，标签的属性值会随之发生变化。
+
+  接下来我们通过代码来演示。
+
+  首先我们在VS Code中创建名为13. Vue-指令-v-bind和v-model.html的文件，然后准备好如下代码：
+
+  ~~~html
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Vue-指令-v-bind</title>
+      <script src="js/vue.js"></script>
+  </head>
+  <body>
+      <div id="app">
+  
+          <a >链接1</a>
+          <a >链接2</a>
+  
+          <input type="text" >
+  
+      </div>
+  </body>
+  <script>
+      //定义Vue对象
+      new Vue({
+          el: "#app", //vue接管区域
+          data:{
+             url: "https://www.baidu.com"
+          }
+      })
+  </script>
+  </html>
+  ~~~
+
+  在上述的代码中，我们需要给&lt;a&gt;标签的href属性赋值，并且值应该来自于vue对象的数据模型中的url变量。所以编写如下代码：
+
+  ~~~html
+  <a v-bind:href="url">链接1</a>
+  ~~~
+
+  在上述的代码中，v-bind指令是可以省略的，但是:不能省略，所以第二个超链接的代码编写如下：
+
+  ~~~html
+  <a :href="url">链接2</a>
+  ~~~
+
+  浏览器打开，2个超链接都可以点击，然后跳转到百度去！效果如图所示：
+
+<img width="730" alt="image" src="https://github.com/laurarian/java-tutorial/assets/78458931/434646f9-198d-4d63-abbb-0e51a83738b5">
+
+
+  
+
+  **注意：html属性前面有:表示采用的vue的属性绑定！**
+
+- v-model： 在表单元素上创建双向数据绑定。什么是双向？
+
+  -  vue对象的data属性中的数据变化，视图展示会一起变化
+  -  视图数据发生变化，vue对象的data属性中的数据也会随着变化。
+
+  data属性中数据变化，我们知道可以通过赋值来改变，但是视图数据为什么会发生变化呢？**只有表单项标签！所以双向绑定一定是使用在表单项标签上的**。编写如下代码：
+
+  ~~~html
+  <input type="text" v-model="url">
+  ~~~
+
+  打开浏览器，我们修改表单项标签，发现vue对象data中的数据也发生了变化，如下图所示：
+
+<img width="579" alt="image" src="https://github.com/laurarian/java-tutorial/assets/78458931/13477dd1-e30d-49ae-8ce1-c0a90e584235">
+
+
+
+  通过上图我们发现，我们只是改变了表单数据，那么我们之前超链接的绑定的数据值也发生了变化，为什么？
+
+  就是因为我们双向绑定，在视图发生变化时，同时vue的data中的数据模型也会随着变化。那么这个在企业开发的应用场景是什么？
+
+  **双向绑定的作用：可以获取表单的数据的值，然后提交给服务器**
+**注意：**
+1. 通过v-bind或者v-model绑定的变量，必须在数据模型中声明。
+  
+
+  整体代码如下:
+
+  ~~~html
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Vue-指令-v-bind</title>
+      <script src="js/vue.js"></script>
+  </head>
+  <body>
+      <div id="app">
+  
+          <a v-bind:href="url">链接1</a>
+          <a :href="url">链接2</a>
+  
+          <input type="text" v-model="url">
+  
+      </div>
+  </body>
+  <script>
+      //定义Vue对象
+      new Vue({
+          el: "#app", //vue接管区域
+          data:{
+             url: "https://www.baidu.com"
+          }
+      })
+  </script>
+  </html>
+  ~~~
+
 ### 2.3.2 v-on
+
+<img width="749" alt="image" src="https://github.com/laurarian/java-tutorial/assets/78458931/a07e7504-aec4-49ec-9fb9-82bdf9251b13">
+
+v-on: 用来给html标签绑定事件的。**需要注意的是如下2点**：
+
+- v-on语法给标签的事件绑定的函数，必须是vue对象中声明的函数
+
+- v-on语法绑定事件时，事件名相比较js中的事件名，没有on
+
+  例如：在js中，事件绑定demo函数
+
+  ~~~html
+  <input onclick="demo()">
+  ~~~
+
+  vue中，事件绑定demo函数
+
+  ~~~html
+  <input v-on:click="demo()">
+  ~~~
+
+接下来我们通过代码演示。
+
+
+在VS Code中创建名为19. Vue-指令-v-on.html的文件。
+完整代码如下：
+~~~html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue-指令-v-on</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+
+        <input type="button" value="点我一下" v-on:click="handle">
+        <!-- 简化写法 -->
+        <input type="button" value="点我一下" @click="handle()">
+
+    </div>
+</body>
+<script>
+    //定义Vue对象
+    new Vue({
+        el: "#app", //vue接管区域
+        data:{
+           
+        },
+        methods: {
+            handle: function(){
+                alert("你点我了一下...");
+            }
+        }
+    })
+</script>
+</html>
+~~~
 ### 2.3.3 v-if和v-show
+
+<img width="779" alt="image" src="https://github.com/laurarian/java-tutorial/assets/78458931/7288d897-e44b-4460-a983-81781c39b739">
+
+
+
