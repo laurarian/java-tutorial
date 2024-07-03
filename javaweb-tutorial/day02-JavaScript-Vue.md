@@ -1870,7 +1870,79 @@ v-on: 用来给html标签绑定事件的。**需要注意的是如下2点**：
 ~~~
 ### 2.3.3 v-if和v-show
 
-<img width="779" alt="image" src="https://github.com/laurarian/java-tutorial/assets/78458931/7288d897-e44b-4460-a983-81781c39b739">
+<img width="942" alt="image" src="https://github.com/laurarian/java-tutorial/assets/78458931/8854f370-e025-48ea-8c32-b7ce1f9b4c4d">
+
+
+我们直接通过代码来演示效果。在VS Code中创建名为15. Vue-指令-v-if和v-show.html的文件，提前准备好如下代码：
+
+~~~html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue-指令-v-if与v-show</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        
+        年龄<input type="text" v-model="age">经判定,为:
+        <span>年轻人(35及以下)</span>
+        <span>中年人(35-60)</span>
+        <span>老年人(60及以上)</span>
+
+        <br><br>
+    </div>
+</body>
+<script>
+    //定义Vue对象
+    new Vue({
+        el: "#app", //vue接管区域
+        data:{
+           age: 20
+        },
+        methods: {
+            
+        }
+    })
+</script>
+</html>
+~~~
+
+其中采用了双向绑定到age属性，意味着我们可以通过表单输入框来改变age的值。
+
+需求是当我们改变年龄时，需要动态判断年龄的值，呈现对应的年龄的文字描述。年轻人，我们需要使用条件判断`age<=35`,中年人我们需要使用条件判断`age>35 && age<60`,其他情况是老年人。所以通过v-if指令编写如下代码：
+
+~~~html
+年龄<input type="text" v-model="age">经判定,为:
+<span v-if="age <= 35">年轻人(35及以下)</span>
+<span v-else-if="age > 35 && age < 60">中年人(35-60)</span>
+<span v-else>老年人(60及以上)</span>
+~~~
+
+浏览器打开测试效果如下图：
+
+<img width="440" alt="image" src="https://github.com/laurarian/java-tutorial/assets/78458931/3b0477a6-0e14-40cb-bb28-3cfbf2ce8aec">
+
+
+v-show和v-if的作用效果是一样的，只是原理不一样。复制上述html代码，修改v-if指令为v-show指令，代码如下：
+
+~~~html
+年龄<input type="text" v-model="age">经判定,为:
+<span v-show="age <= 35">年轻人(35及以下)</span>
+<span v-show="age > 35 && age < 60">中年人(35-60)</span>
+<span v-show="age >= 60">老年人(60及以上)</span>
+~~~
+
+打开浏览器，展示效果如下所示：
+
+<img width="479" alt="image" src="https://github.com/laurarian/java-tutorial/assets/78458931/ee7ed822-cd29-4265-9f73-4a71431ec76a">
+
+
+可以发现，浏览器呈现的效果是一样的，但是浏览器中html源码不一样。v-if指令，不满足条件的标签代码直接没了，而v-show指令中，不满足条件的代码依然存在，只是添加了css样式来控制标签不去显示。
+
 
 
 
