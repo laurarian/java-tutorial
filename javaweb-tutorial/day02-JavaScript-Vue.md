@@ -1943,6 +1943,86 @@ v-show和v-if的作用效果是一样的，只是原理不一样。复制上述h
 
 可以发现，浏览器呈现的效果是一样的，但是浏览器中html源码不一样。v-if指令，不满足条件的标签代码直接没了，而v-show指令中，不满足条件的代码依然存在，只是添加了css样式来控制标签不去显示。
 
+### 2.3.4 案例
+- 需求：
+
+<img width="839" alt="image" src="https://github.com/laurarian/java-tutorial/assets/78458931/9c4beecc-e40d-4596-a44e-82ddc8556e82">
 
 
+  如上图所示，我们提供好了数据模型，users是数组集合，提供了多个用户信息。然后我们需要将数据以表格的形式，展示到页面上，其中，性别需要转换成中文男女，等级需要将分数数值转换成对应的等级。
+
+- 分析：
+
+  首先我们肯定需要遍历数组的，所以需要使用v-for标签；然后我们每一条数据对应一行，所以v-for需要添加在tr标签上；其次我们需要将编号，所以需要使用索引的遍历语法；然后我们要将数据展示到表格的单元格中，所以我们需要使用{{}}插值表达式；最后，我们需要转换内容，所以我们需要使用v-if指令，进行条件判断和内容的转换
+
+- 步骤：
+
+  - 使用v-for的带索引方式添加到表格的&lt;tr&gt;标签上
+  - 使用{{}}插值表达式展示内容到单元格
+  - 使用索引+1来作为编号
+  - 使用v-if来判断，改变性别和等级这2列的值
+
+- 代码实现：
+
+  创建名为22. Vue-指令-案例.html的文件，完整代码如下：
+
+
+## 2.4 生命周期
+vue的生命周期：指的是vue对象从创建到销毁的过程。vue的生命周期包含8个阶段：每触发一个生命周期事件，会自动执行一个生命周期方法，这些生命周期方法也被称为钩子方法。其完整的生命周期如下图所示：
+
+| 状态          | 阶段周期 |
+| ------------- | -------- |
+| beforeCreate  | 创建前   |
+| created       | 创建后   |
+| beforeMount   | 挂载前   |
+| mounted       | 挂载完成 |
+| beforeUpdate  | 更新前   |
+| updated       | 更新后   |
+| beforeDestroy | 销毁前   |
+| destroyed     | 销毁后   |
+
+下图是 Vue 官网提供的从创建 Vue 到效果 Vue 对象的整个过程及各个阶段对应的钩子函数：
+<img width="894" alt="image" src="https://github.com/laurarian/java-tutorial/assets/78458931/7574578e-52db-48d5-990e-453ad895e02e">
+
+其中我们需要重点关注的是**mounted,**其他的我们了解即可。
+
+mounted：挂载完成，Vue初始化成功，HTML页面渲染成功。**以后我们一般用于页面初始化自动的ajax请求后台数据**
+
+我们在VS Code中创建名为23. Vue-生命周期.html的文件编写代码来演示效果
+完整代码如下：
+~~~html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue-指令-v-for</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+
+    </div>
+</body>
+<script>
+    //定义Vue对象
+    new Vue({
+        el: "#app", //vue接管区域
+        data:{
+           
+        },
+        methods: {
+            
+        },
+        mounted () {
+            alert("vue挂载完成,发送请求到服务端")
+        }
+    })
+</script>
+</html>
+~~~
+浏览器打开，运行结果如下：我们发现，自动打印了这句话，因为页面加载完成，vue对象创建并且完成了挂载，此时自动触发mounted所绑定的钩子函数，然后自动执行，弹框。()
+
+<img width="559" alt="image" src="https://github.com/laurarian/java-tutorial/assets/78458931/019ce1bc-ad3b-4e4a-b2a3-9aebb4380797">
 
