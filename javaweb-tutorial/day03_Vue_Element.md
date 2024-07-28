@@ -517,5 +517,257 @@ export default {
 
 到此，我们ElementUI的入门程序编写成功
 
+# 5 Vue路由
 
+## 5.1 路由介绍
+
+将资代码/vue-project(路由)/vue-project/src/views/tlias/DeptView.vue拷贝到我们当前EmpView.vue同级，其结构如下：
+
+![1669385311576](assets/1669385311576.png) 
+
+此时我们希望基于4.4案例中的功能，实现点击侧边栏的部门管理，显示部门管理的信息，点击员工管理，显示员工管理的信息，效果如下图所示：
+
+![1669385425617](assets/1669385425617.png)
+
+
+
+![1669385446343](assets/1669385446343.png)
+
+这就需要借助我们的vue的路由功能了。
+
+前端路由：URL中的hash(#号之后的内容）与组件之间的对应关系，如下图所示：
+
+![1669385782145](assets/1669385782145.png)
+
+当我们点击左侧导航栏时，浏览器的地址栏会发生变化，路由自动更新显示与url所对应的vue组件。
+
+
+
+而我们vue官方提供了路由插件Vue Router,其主要组成如下：
+
+- VueRouter：路由器类，根据路由请求在路由视图中动态渲染选中的组件
+- &lt;router-link&gt;：请求链接组件，浏览器会解析成&lt;a&gt;
+- &lt;router-view&gt;：动态视图组件，用来渲染展示与路由路径对应的组件
+
+
+
+其工作原理如下图所示：
+
+![1669386261570](assets/1669386261570.png)
+
+首先VueRouter根据我们配置的url的hash片段和路由的组件关系去维护一张路由表;
+
+然后我们页面提供一个&lt;router-link&gt;组件,用户点击，发出路由请求;
+
+接着我们的VueRouter根据路由请求，在路由表中找到对应的vue组件；
+
+最后VueRouter会切换&lt;router-view&gt;中的组件，从而进行视图的更新
+
+
+
+## 5.2 路由入门
+
+接下来我们来演示vue的路由功能。
+
+首先我们需要先安装vue-router插件，可以通过如下命令
+
+~~~
+npm install vue-router@3.5.1
+~~~
+
+**但是我们不需要安装，因为当初我们再创建项目时，已经勾选了路由功能，已经安装好了。**
+
+然后我们需要在**src/router/index.js**文件中定义路由表，根据其提供的模板代码进行修改，最终代码如下：
+
+~~~js
+import Vue  'vue'
+import VueRouter  'vue-router'
+
+Vue.use(VueRouter)
+
+const routes = [
+  {
+    path: '/emp',  //地址hash
+    name: 'emp',
+    component:  () => import('../views/tlias/EmpView.vue')  //对应的vue组件
+  },
+  {
+    path: '/dept',
+    name: 'dept',
+    component: () => import('../views/tlias/DeptView.vue')
+  }
+]
+
+const router = new VueRouter({
+  routes
+})
+
+export default router
+
+~~~
+
+注意需要去掉没有引用的import模块。
+
+在main.js中，我们已经引入了router功能，如下图所示：
+
+路由基本信息配置好了，路由表已经被加载，此时我们还缺少2个东西，就是&lt;router-lin&gt;和&lt;router-view&gt;,所以我们需要修改2个页面（EmpView.vue和DeptView.vue）我们左侧栏的2个按钮为router-link,其代码如下：
+
+~~~html
+<el-menu-item index="1-1">
+    <router-link to="/dept">部门管理</router-link>
+</el-menu-item>
+<el-menu-item index="1-2">
+    <router-link to="/emp">员工管理</router-link>
+</el-menu-item>
+~~~
+
+然后我们还需要在内容展示区域即App.vue中定义route-view，作为组件的切换，其App.vue的完整代码如下：
+
+~~~html
+<template>
+  <div id="app">
+    <!-- {{message}} -->
+    <!-- <element-view></element-view> -->
+    <!-- <emp-view></emp-view> -->
+    <router-view></router-view>
+  </div>
+</template>
+
+<script>
+// import EmpView  './views/tlias/EmpView.vue'
+// import ElementView  './views/Element/ElementView.vue'
+export default {
+  components: { },
+  data(){
+    return {
+      "message":"hello world"
+    }
+  }
+}
+</script>
+<style>
+
+</style>
+
+~~~
+
+但是我们浏览器打开地址： http://localhost:7000/ ，发现一片空白，因为我们默认的路由路径是/,但是路由配置中没有对应的关系，
+
+所以我们需要在路由配置中/对应的路由组件，代码如下：
+
+~~~js
+const routes = [
+  {
+    path: '/emp',
+    name: 'emp',
+    component:  () => import('../views/tlias/EmpView.vue')
+  },
+  {
+    path: '/dept',
+    name: 'dept',
+    component: () => import('../views/tlias/DeptView.vue')
+  },
+  {
+    path: '/',
+    redirect:'/emp' //表示重定向到/emp即可
+  },
+]
+~~~
+
+此时我们打开浏览器，访问http://localhost:7000 发现直接访问的是emp的页面，并且能够进行切换了，其具体如下图所示：
+
+![1669388755027](assets/1669388755027.png) 
+
+到此我们的路由实现成功。
+
+
+
+# 6 打包部署
+
+我们的前端工程开发好了，但是我们需要发布，那么如何发布呢？主要分为2步：
+
+1. 前端工程打包
+2. 通过nginx服务器发布前端工程
+
+## 6.1 前端工程打包
+
+接下来我们先来对前端工程进行打包
+
+我们直接通过VS Code的NPM脚本中提供的build按钮来完整，如下图所示，直接点击即可：
+
+![1669389052906](assets/1669389052906.png)
+
+然后会在工程目录下生成一个dist目录，用于存放需要发布的前端资源，如下图所示：
+
+![1669389147027](assets/1669389147027.png)
+
+
+
+## 6.2 部署前端工程
+
+### 6.2.1 nginx介绍
+
+nginx: Nginx是一款轻量级的Web服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器。其特点是**占有内存少，并发能力强**，在各大型互联网公司都有非常广泛的使用。
+
+niginx在windows中的安装是比较方便的，直接解压即可。所以我们直接将资料中的nginx-1.22.0.zip压缩文件拷贝到**无中文的目录下**，直接解压即可，如下图所示就是nginx的解压目录以及目录结构说明：
+
+<img width="796" alt="image" src="https://github.com/user-attachments/assets/c58f937b-022a-454e-ba86-d6b2ab3263b2">
+
+
+**很明显，我们如果要发布，直接将资源放入到html目录中。**
+
+
+
+### 6.2.2 部署
+
+将我们之前打包的前端工程dist目录下得内容拷贝到nginx的html目录下
+
+然后我们通过双击nginx下得nginx.exe文件来启动nginx，如下图所示：
+<img width="798" alt="image" src="https://github.com/user-attachments/assets/be063d02-9fd7-4dee-9e72-5ff071f13119">
+
+
+nginx服务器的端口号是80，所以启动成功之后，我们浏览器直接访问http://localhost:80 即可，其中80端口可以省略，其浏览器展示效果如图所示：
+
+<img width="1079" alt="image" src="https://github.com/user-attachments/assets/862564a1-250f-40c8-b1e0-7ca3e5cd726d">
+
+
+到此，我们的前端工程发布成功。
+
+
+
+PS: 如果80端口被占用，我们需要通过**conf/nginx.conf**配置文件来修改端口号。如下图所示：
+
+<img width="874" alt="image" src="https://github.com/user-attachments/assets/49790569-70fd-4484-b8fe-31a714aed0b5">
+
+
+如何在 macOS 上使用 Nginx 部署前端项目。主要步骤包括指向 Nginx 配置文件中的 `dist` 目录。
+
+以下是一个基本的 Nginx 配置示例，用于部署静态网站或前端项目：
+
+```nginx
+server {
+    listen 80; # 或其他未被占用的端口，如 8080
+    server_name localhost; # 或者你的域名
+
+    location / {
+        root /path/to/your/dist; # 指向你的前端项目的 dist 目录
+        index index.html; # 默认打开的首页文件
+        try_files $uri $uri/ /index.html; # 用于支持单页面应用(SPA)的前端路由
+    }
+
+    # 可以添加更多的 location 块来处理其他请求，如 API 代理等
+}
+
+部署步骤
+1. 准备 dist 目录
+确保你的前端构建工具（如 webpack、Vue CLI、Create React App 等）已经生成了 dist 目录。
+2. 配置 Nginx
+修改 Nginx 的配置文件（通常是 nginx.conf），将 root 指令指向你的 dist 目录。
+使用 try_files 指令确保单页面应用的路由可以正确返回 index.html 文件。
+3. 测试配置文件
+使用 nginx -t 命令来测试配置文件是否有语法错误。
+4. 重载 Nginx
+使用 sudo nginx -s reload 命令来应用配置更改。
+5. 访问你的应用
+在浏览器中访问 http://localhost（或其他你在 server_name 中设置的域名），检查你的应用是否正确加载。
 
